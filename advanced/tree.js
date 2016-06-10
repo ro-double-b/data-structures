@@ -4,6 +4,7 @@ var Tree = function(value) {
   newTree.value = value;
   newTree.addChild = treeMethods.addChild;
   newTree.contains = treeMethods.contains;
+  newTree.removeFromParent = treeMethods.removeFromParent;
 
   // your code here
   newTree.children = [];  // fix me
@@ -21,11 +22,13 @@ treeMethods.addChild = function(value) {
 
 treeMethods.removeFromParent = function() {
   if (this.parent !== null) {
-    var index = this.parent.children.forEach(function(node, idx) {
+    var index;
+    this.parent.children.forEach(function(node, idx) {
       if (this.value === node.value) {
-        return index;
+        index = idx;
       }
     }, this);
+    console.log(index);
     this.parent.children = this.parent.children.slice(0, index).concat(this.parent.children.slice(index + 1, this.parent.children.length));
     this.parent = null; 
   }
