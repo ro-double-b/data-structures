@@ -1,10 +1,11 @@
-var Tree = function(value) {
+var parentTree = function(value) {
   var newTree = {};
 
   newTree.value = value;
-  newTree.addChild = treeMethods.addChild;
-  newTree.contains = treeMethods.contains;
-  newTree.removeFromParent = treeMethods.removeFromParent;
+  newTree.addChild = parentTreeMethods.addChild;
+  newTree.contains = parentTreeMethods.contains;
+  newTree.removeFromParent = parentTreeMethods.removeFromParent;
+  newTree.traverse = parentTreeMethods.traverse;
 
   // your code here
   newTree.children = [];  // fix me
@@ -13,14 +14,14 @@ var Tree = function(value) {
   return newTree;
 };
 
-var treeMethods = {};
+var parentTreeMethods = {};
 
-treeMethods.addChild = function(value) {
-  this.children.push(Tree(value));
+parentTreeMethods.addChild = function(value) {
+  this.children.push(parentTree(value));
   this.children[this.children.length - 1].parent = this;
 };
 
-treeMethods.removeFromParent = function() {
+parentTreeMethods.removeFromParent = function() {
   if (this.parent !== null) {
     var index;
     this.parent.children.forEach(function(node, idx) {
@@ -34,7 +35,7 @@ treeMethods.removeFromParent = function() {
   }
 };
 
-treeMethods.contains = function(target) {
+parentTreeMethods.contains = function(target) {
 
   if (this.value === target) {
     return true;
@@ -48,7 +49,12 @@ treeMethods.contains = function(target) {
   return false;     
 };
 
-
+parentTreeMethods.traverse = function(callback) {
+  callback(this.value);
+  this.children.forEach(function(child) {
+    child.traverse(callback);
+  });
+};
 
 /*
  * Complexity: What is the time complexity of the above functions?
