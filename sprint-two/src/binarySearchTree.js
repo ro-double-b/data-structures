@@ -51,6 +51,26 @@ var BinarySearchTree = function(value) {
 
   };
 
+  obj.breadthFirstlog = function(callback) {
+    var instance = obj;
+  
+    if (obj.left) {
+      callback(obj.left);
+    }
+    if (obj.right) {
+      callback(obj.right);
+    }
+    if (obj.left) {
+      instance = obj.left;
+      instance.breadthFirstlog(callback);
+    }
+    if (obj.right) {
+      instance = obj.right;
+      instance.breadthFirstlog(callback);
+    }
+
+  }
+
   return obj;
 };
 
