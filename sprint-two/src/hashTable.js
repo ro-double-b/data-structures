@@ -73,6 +73,33 @@ HashTable.prototype.remove = function(k) {
   var index = getIndexBelowMaxForKey(k, this._limit);
   this._storage.set(index, undefined);
   this._counter--;
+
+  if (this._counter / this._limit < .25) {
+    var copyStorage = this._storage;
+    this._limit = this._limit / 2;
+    this._storage = LimitedArray(this._limit);
+
+    this._counter = 0;
+    var that = this;
+
+    copyStorage.each(function(element) {
+      if (element) {
+        if (Array.isArray(element[0])) {
+          element.forEach(function(array) {
+            that.insert(array[0], array[1]);
+          });
+        } else if (element) {
+          that.insert(element[0], element[1]);
+        }
+      }
+    });
+
+
+
+
+
+
+  }
 };
 
 
