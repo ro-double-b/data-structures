@@ -50,30 +50,36 @@ var BinarySearchTree = function(value) {
     }
 
   };
+ 
+  obj.breadthFirstLog = function(callback) {
+    var resultObj = {};
+    var row = 1;
 
-  obj.breadthFirstlog = function(callback) {
-    var instance = obj;
-  
-    if (obj.left) {
-      callback(obj.left);
-    }
-    if (obj.right) {
-      callback(obj.right);
-    }
-    if (obj.left) {
-      instance = obj.left;
-      instance.breadthFirstlog(callback);
-    }
-    if (obj.right) {
-      instance = obj.right;
-      instance.breadthFirstlog(callback);
+    resultObj[row] = [obj];
+    
+    while (resultObj[row].length !== 0) {
+      resultObj[row + 1] = [];
+      for (i = 0; i < resultObj[row].length; i++) {
+        
+        if (resultObj[row][i].left !== null) {
+          resultObj[row + 1].push(resultObj[row][i].left);
+        }
+        if (resultObj[row][i].right !== null) {
+          resultObj[row + 1].push(resultObj[row][i].right);
+        }
+      }
+      row++;
     }
 
-  }
+    for (var j = 1; j < row; j++) {
+      resultObj[j].forEach(function(element) {
+        callback(element.value);
+      });
+    }
+  };
 
   return obj;
 };
-
 
 /*
  * Complexity: What is the time complexity of the above functions?
