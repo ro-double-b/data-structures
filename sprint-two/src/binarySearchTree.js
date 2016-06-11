@@ -4,7 +4,17 @@ var BinarySearchTree = function(value) {
   obj.left = null;
   obj.right = null;
 
+  obj.allowRebalance = true;
+
   obj.insert = function(childVal) {
+
+    var minDepth = obj.findMinDepth() - 1;
+    var maxDepth = obj.findMaxDepth() - 1;
+
+    if (minDepth / maxDepth < .5 && obj.allowRebalance) {
+      obj.reBalance();
+    }
+
     if (childVal > obj.value) {
       if (obj.right === null) {
         obj.right = BinarySearchTree(childVal);
@@ -18,6 +28,8 @@ var BinarySearchTree = function(value) {
         obj.left.insert(childVal);
       }
     }
+
+
   };
 
   obj.contains = function(target) {
@@ -52,6 +64,18 @@ var BinarySearchTree = function(value) {
   };
  
   obj.breadthFirstLog = function(callback) {
+    var resultObj = obj.mapTree();
+    var maxKey = Object.keys(resultObj).length;
+
+    for (var j = 1; j <= maxKey; j++) {
+      resultObj[j].forEach(function(element) {
+        console.log(element.value);
+        callback(element.value);
+      });
+    }
+  };
+
+  obj.mapTree = function() {
     var resultObj = {};
     var row = 1;
 
@@ -70,17 +94,67 @@ var BinarySearchTree = function(value) {
       }
       row++;
     }
+    return resultObj;
+  };
 
-    for (var j = 1; j < row; j++) {
-      resultObj[j].forEach(function(element) {
-        callback(element.value);
-      });
+  obj.findMaxDepth = function() {
+    var resultObj = obj.mapTree();
+    return Object.keys(resultObj).length;
+  };
+
+  obj.findMinDepth = function() {
+    var resultObj = obj.mapTree();
+    var maxRow = Object.keys(resultObj).length;
+    var test = 1;
+    for (var i = 1; i <= maxRow; i++) {
+      if (resultObj[i].length === test) {
+        test = test * 2;
+      } else {
+        return i;
+      }
     }
+    return maxRow;
+  };
+
+  obj.reBalance = function() {
+    debugger;
+    var values = []; 
+    obj.depthFirstLog(function(element) {
+      values.push(element);
+    });
+
+    var compareNumbers = function(a, b) {
+      return a - b;
+    };
+
+    values.sort(compareNumbers);
+    var middleIndex = Math.floor(values.length / 2);
+
+    obj.left = null;
+    obj.right = null;
+
+    obj.value = (values[middleIndex]);
+    obj.allowRebalance = false;
+
+    var makeBalancedTree = function(array) {
+      var middle = Math.floor(array.length / 2);
+      obj.insert(array[middle]);
+
+      if (array.length > 1) {
+        makeBalancedTree(array.slice(0, middle));
+        makeBalancedTree(array.slice(middle + 1, array.length));
+      }
+    };
+
+    makeBalancedTree(values.slice(0, middleIndex));
+    makeBalancedTree(values.slice(middleIndex + 1, values.length));
+    obj.allowRebalance = true;
   };
 
   return obj;
 };
 
+// [60, 70, 80, 90, 95, 100, 110, 120, 130, 140]
 /*
  * Complexity: What is the time complexity of the above functions?
  */

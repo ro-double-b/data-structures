@@ -51,4 +51,14 @@ describe('binarySearchTree', function() {
     binarySearchTree.breadthFirstLog(func);
     expect(array).to.eql([5, 3, 7, 2, 6, 10, 1, 8, 11]);
   });
+
+  it('should rebalance the tree when maximum depth is twice as long as minimum depth', function() {
+    binarySearchTree.insert(6);
+    binarySearchTree.insert(7);
+    binarySearchTree.insert(8);
+    binarySearchTree.insert(9);
+    console.log(binarySearchTree);
+    expect(binarySearchTree.allowRebalance).to.equal(true);
+    expect(binarySearchTree.value).to.equal(6);
+  });
 });
