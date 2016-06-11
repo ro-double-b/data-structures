@@ -28,12 +28,27 @@ describe('binarySearchTree', function() {
     expect(binarySearchTree.contains(8)).to.equal(false);
   });
 
-  it('should execute a callback on every value in a tree using "depthFirstLog"', function() {
+  it('should execute a callback on every value in a tree depth first using "depthFirstLog"', function() {
     var array = [];
     var func = function(value) { array.push(value); };
     binarySearchTree.insert(2);
     binarySearchTree.insert(3);
     binarySearchTree.depthFirstLog(func);
     expect(array).to.eql([5, 2, 3]);
+  });
+
+  it('should execute a callback on every value in a tree breadth first using "breadthFirstLog"', function() {
+    var array = [];
+    var func = function(value) { array.push(value); };
+    binarySearchTree.insert(7);
+    binarySearchTree.insert(3);
+    binarySearchTree.insert(2);
+    binarySearchTree.insert(1);
+    binarySearchTree.insert(10);
+    binarySearchTree.insert(6);
+    binarySearchTree.insert(8);
+    binarySearchTree.insert(11);
+    binarySearchTree.breadthFirstLog(func);
+    expect(array).to.eql([5, 3, 7, 2, 6, 10, 1, 8, 11]);
   });
 });
