@@ -157,4 +157,14 @@ var BinarySearchTree = function(value) {
 // [60, 70, 80, 90, 95, 100, 110, 120, 130, 140]
 /*
  * Complexity: What is the time complexity of the above functions?
+
+  5
+3    7
+  4 6  
+
+
+
+
+
+
  */
